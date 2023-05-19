@@ -9,6 +9,7 @@ const App = () => {
   const [code, setCode] = useState("");
 
   const startService = async () => {
+    // assign the esbuild service to the ref
     ref.current = await esbuild.startService({
       worker: true,
       wasmURL: "/esbuild.wasm",
@@ -19,13 +20,19 @@ const App = () => {
     startService();
   }, []);
 
-  const onClick = () => {
+  const onClick = async () => {
     // if user clicks on submit button before service is ready
     if (!ref.current) {
       return;
     }
 
-    console.log(ref.current);
+    // this will only do some transpiling on input
+    const result = await ref.current.transform(input, {
+      loader: "jsx",
+      target: "es2015",
+    });
+
+    setCode(result.code);
   };
 
   return (

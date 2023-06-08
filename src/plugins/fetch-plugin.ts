@@ -17,7 +17,7 @@ export const fetchPlugin = (inputCode: string) => {
           contents: inputCode,
         };
       });
-      build.onLoad({ filter: /.css$/ }, async (args: any) => {
+      build.onLoad({ filter: /.*/ }, async (args: any) => {
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
           args.path
         );
@@ -25,7 +25,8 @@ export const fetchPlugin = (inputCode: string) => {
         if (cachedResult) {
           return cachedResult;
         }
-
+      });
+      build.onLoad({ filter: /.css$/ }, async (args: any) => {
         const { data, request } = await axios.get(args.path);
 
         // collapse all css into a single line, then find all the double quotes and escape them, then find all the single quotes in the file and escape them
@@ -50,14 +51,6 @@ export const fetchPlugin = (inputCode: string) => {
         return result;
       });
       build.onLoad({ filter: /.*/ }, async (args: any) => {
-        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
-          args.path
-        );
-
-        if (cachedResult) {
-          return cachedResult;
-        }
-
         const { data, request } = await axios.get(args.path);
 
         const result: esbuild.OnLoadResult = {

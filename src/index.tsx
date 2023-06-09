@@ -41,6 +41,12 @@ const App = () => {
     });
 
     setCode(result.outputFiles[0].text);
+    try {
+      // execute javascript that is inside of a string
+      eval(result.outputFiles[0].text);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (

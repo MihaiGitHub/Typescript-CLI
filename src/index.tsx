@@ -59,8 +59,17 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
+      {/* sandbox property allows or disallows direct access between iframe and parent */}
+      <iframe sandbox="allow-same-origin" src="/iframe.html" />
+
+      {/* load up content into this iframe using a local string */}
+      <iframe srcDoc={html} />
     </div>
   );
 };
+
+const html = `
+<h1>Local HTML doc</h1>
+`;
 
 ReactDOM.render(<App />, document.querySelector("#root"));

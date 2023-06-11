@@ -49,6 +49,8 @@ const App = () => {
     }
   };
 
+  const html = `<script>${code}</script>`;
+
   return (
     <div>
       <textarea
@@ -60,6 +62,7 @@ const App = () => {
       </div>
       <pre>{code}</pre>
       {/* sandbox property allows or disallows direct access between iframe and parent */}
+      {/* sandbox="allow-scripts" allows iframe to execute script tags */}
       <iframe sandbox="allow-same-origin" src="/iframe.html" />
 
       {/* load up content into this iframe using a local string */}
@@ -67,9 +70,5 @@ const App = () => {
     </div>
   );
 };
-
-const html = `
-<h1>Local HTML doc</h1>
-`;
 
 ReactDOM.render(<App />, document.querySelector("#root"));

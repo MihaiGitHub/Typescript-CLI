@@ -7,6 +7,7 @@ import { fetchPlugin } from "./plugins/fetch-plugin";
 const App = () => {
   // assign a type to this ref
   const ref = useRef<any>();
+  const iframe = useRef<any>();
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
 
@@ -40,16 +41,28 @@ const App = () => {
       },
     });
 
-    setCode(result.outputFiles[0].text);
     try {
       // execute javascript that is inside of a string
       eval(result.outputFiles[0].text);
     } catch (err) {
       alert(err);
     }
+
+    iframe.current.postMessage(result.outputFiles[0].text, "*");
   };
 
-  const html = `<script>${code}</script>`;
+  const html = `
+  <html>
+    <head></head>
+    <body>
+      <div id="root"></div>
+      <script>
+        window.addEventListener('message', (event) => {
+            eval(event.data);
+        }, false);
+      </script>
+    </body>
+  </html>`;
 
   return (
     <div>
@@ -66,7 +79,7 @@ const App = () => {
       <iframe sandbox="allow-same-origin" src="/iframe.html" />
 
       {/* load up content into this iframe using a local string */}
-      <iframe srcDoc={html} />
+      <iframe ref={iframe} sandbox="allow-scripts" srcDoc={html} />
     </div>
   );
 };

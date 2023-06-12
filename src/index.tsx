@@ -9,7 +9,6 @@ const App = () => {
   const ref = useRef<any>();
   const iframe = useRef<any>();
   const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
 
   const startService = async () => {
     // assign the esbuild service to the ref
@@ -28,6 +27,8 @@ const App = () => {
     if (!ref.current) {
       return;
     }
+
+    iframe.current.srcdoc = html;
 
     // this will only do some transpiling on input
     const result = await ref.current.build({
@@ -80,13 +81,17 @@ const App = () => {
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
-      <pre>{code}</pre>
       {/* sandbox property allows or disallows direct access between iframe and parent */}
       {/* sandbox="allow-scripts" allows iframe to execute script tags */}
-      <iframe sandbox="allow-same-origin" src="/iframe.html" />
+      <iframe title="Preview" sandbox="allow-same-origin" src="/iframe.html" />
 
       {/* load up content into this iframe using a local string */}
-      <iframe ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+      <iframe
+        title="Preview"
+        ref={iframe}
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
     </div>
   );
 };

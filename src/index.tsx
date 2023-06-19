@@ -5,11 +5,12 @@ import ReactDOM from "react-dom";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 import CodeEditor from "./components/code-editor";
+import Preview from "./components/preview";
 
 const App = () => {
   // assign a type to this ref
   const ref = useRef<any>();
-  const iframe = useRef<any>();
+  const [code, setCode] = useState("");
   const [input, setInput] = useState("");
 
   const startService = async () => {
@@ -30,8 +31,6 @@ const App = () => {
       return;
     }
 
-    iframe.current.srcdoc = html;
-
     // this will only do some transpiling on input
     const result = await ref.current.build({
       entryPoints: ["index.js"],
@@ -44,35 +43,15 @@ const App = () => {
       },
     });
 
-    try {
-      // execute javascript that is inside of a string
-      eval(result.outputFiles[0].text);
-    } catch (err) {
-      alert(err);
-    }
+    setCode(result.outputFiles[0].text);
 
-    iframe.current.postMessage(result.outputFiles[0].text, "*");
+    // try {
+    //   // execute javascript that is inside of a string
+    //   eval(result.outputFiles[0].text);
+    // } catch (err) {
+    //   alert(err);
+    // }
   };
-
-  // the html that goes inside the iframe which contains the root div which can be targeted
-  const html = `
-  <html>
-    <head></head>
-    <body>
-      <div id="root"></div>
-      <script>
-        window.addEventListener('message', (event) => {
-          try {
-            eval(event.data);
-          } catch (err) {
-            const root = document.querySelector('#root');
-            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
-            throw err;
-          }
-        }, false);
-      </script>
-    </body>
-  </html>`;
 
   return (
     <div>
@@ -80,24 +59,22 @@ const App = () => {
         initialValue="const a = 1;"
         onChange={(value) => setInput(value)}
       />
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      ></textarea>
+
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
       {/* sandbox property allows or disallows direct access between iframe and parent */}
       {/* sandbox="allow-scripts" allows iframe to execute script tags */}
-      <iframe title="Preview" sandbox="allow-same-origin" src="/iframe.html" />
+      {/* <iframe title="Preview" sandbox="allow-same-origin" src="/iframe.html" /> */}
 
       {/* load up content into this iframe using a local string */}
-      <iframe
+      {/* <iframe
         title="Preview"
         ref={iframe}
         sandbox="allow-scripts"
         srcDoc={html}
-      />
+      /> */}
+      <Preview code={code} />
     </div>
   );
 };

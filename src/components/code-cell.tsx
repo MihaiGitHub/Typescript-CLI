@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import CodeEditor from "./code-editor";
 import Preview from "./preview";
 import bundle from "../bundler";
+import Resizable from "./resizable";
 
 const CodeCell = () => {
   const [code, setCode] = useState("");
@@ -21,28 +22,30 @@ const CodeCell = () => {
   };
 
   return (
-    <div>
-      <CodeEditor
-        initialValue="const a = 1;"
-        onChange={(value) => setInput(value)}
-      />
-
+    <Resizable direction="vertical">
       <div>
-        <button onClick={onClick}>Submit</button>
-      </div>
-      {/* sandbox property allows or disallows direct access between iframe and parent */}
-      {/* sandbox="allow-scripts" allows iframe to execute script tags */}
-      {/* <iframe title="Preview" sandbox="allow-same-origin" src="/iframe.html" /> */}
+        <CodeEditor
+          initialValue="const a = 1;"
+          onChange={(value) => setInput(value)}
+        />
 
-      {/* load up content into this iframe using a local string */}
-      {/* <iframe
+        <div>
+          <button onClick={onClick}>Submit</button>
+        </div>
+        {/* sandbox property allows or disallows direct access between iframe and parent */}
+        {/* sandbox="allow-scripts" allows iframe to execute script tags */}
+        {/* <iframe title="Preview" sandbox="allow-same-origin" src="/iframe.html" /> */}
+
+        {/* load up content into this iframe using a local string */}
+        {/* <iframe
         title="Preview"
         ref={iframe}
         sandbox="allow-scripts"
         srcDoc={html}
       /> */}
-      <Preview code={code} />
-    </div>
+        <Preview code={code} />
+      </div>
+    </Resizable>
   );
 };
 

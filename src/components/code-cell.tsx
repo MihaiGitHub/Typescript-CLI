@@ -23,15 +23,12 @@ const CodeCell = () => {
 
   return (
     <Resizable direction="vertical">
-      <div>
+      <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
         <CodeEditor
           initialValue="const a = 1;"
           onChange={(value) => setInput(value)}
         />
 
-        <div>
-          <button onClick={onClick}>Submit</button>
-        </div>
         {/* sandbox property allows or disallows direct access between iframe and parent */}
         {/* sandbox="allow-scripts" allows iframe to execute script tags */}
         {/* <iframe title="Preview" sandbox="allow-same-origin" src="/iframe.html" /> */}

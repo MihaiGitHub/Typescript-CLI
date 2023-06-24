@@ -24,10 +24,12 @@ const CodeCell = () => {
   return (
     <Resizable direction="vertical">
       <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
-        <CodeEditor
-          initialValue="const a = 1;"
-          onChange={(value) => setInput(value)}
-        />
+        <Resizable direction="horizontal">
+          <CodeEditor
+            initialValue="const a = 1;"
+            onChange={(value) => setInput(value)}
+          />
+        </Resizable>
 
         {/* sandbox property allows or disallows direct access between iframe and parent */}
         {/* sandbox="allow-scripts" allows iframe to execute script tags */}

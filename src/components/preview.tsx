@@ -32,7 +32,9 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
 
   useEffect(() => {
     iframe.current.srcdoc = html;
-    iframe.current.postMessage(code, "*");
+    setTimeout(() => {
+      iframe.current.postMessage(code, "*");
+    }, 50);
   }, [code]);
 
   return (

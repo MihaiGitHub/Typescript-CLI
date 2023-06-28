@@ -42,7 +42,7 @@ const CodeCell = () => {
         sandbox="allow-scripts"
         srcDoc={html}
       /> */}
-        <Preview code={code} />
+        <Preview err={err} code={code} />
       </div>
     </Resizable>
   );

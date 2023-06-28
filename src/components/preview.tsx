@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 
 interface PreviewProps {
   code: string;
+  err: string;
 }
 
 // the html that goes inside the iframe which contains the root div which can be targeted
@@ -36,7 +37,7 @@ const html = `
     </body>
   </html>`;
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, err }) => {
   const iframe = useRef<any>();
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
         sandbox="allow-scripts"
         srcDoc={html}
       />
+      {err && <div className="preview-error">{err}</div>}
     </div>
   );
 };

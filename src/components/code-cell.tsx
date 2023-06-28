@@ -10,23 +10,15 @@ const CodeCell = () => {
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    setTimeout(async () => {
+    const timer = setTimeout(async () => {
       const output = await bundle(input);
       setCode(output);
-    }, 1000);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [input]);
-
-  const onClick = async () => {
-    const output = await bundle(input);
-    setCode(output);
-
-    // try {
-    //   // execute javascript that is inside of a string
-    //   eval(result.outputFiles[0].text);
-    // } catch (err) {
-    //   alert(err);
-    // }
-  };
 
   return (
     <Resizable direction="vertical">

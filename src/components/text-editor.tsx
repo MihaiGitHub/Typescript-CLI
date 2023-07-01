@@ -27,13 +27,13 @@ const TextEditor: React.FC = () => {
 
   if (editing) {
     return (
-      <div ref={ref}>
+      <div ref={ref} className="text-editor">
         <MDEditor />
       </div>
     );
   }
   return (
-    <div onClick={() => setEditing(true)}>
+    <div className="text-editor" onClick={() => setEditing(true)}>
       <MDEditor.Markdown source={"# Header"} />
     </div>
   );

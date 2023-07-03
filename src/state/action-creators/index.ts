@@ -1,10 +1,15 @@
-import { combineReducers } from "redux";
-import cellsReducer from "./cellsReducer";
+import { ActionType } from "../action-types";
+import {
+  Action,
+  UpdateCellAction,
+  DeleteCellAction,
+  MoveCellAction,
+  InsertCellBeforeAction,
+} from "../actions";
 
-const reducers = combineReducers({
-  cells: cellsReducer,
-});
-
-export default reducers;
-
-export type RootState = ReturnType<typeof reducers>;
+export const updateCell = (): UpdateCellAction => {
+  // must return object that satisfies interface UpdateCellAction
+};
+export const deleteCell = (): DeleteCellAction => {};
+export const moveCell = (): MoveCellAction => {};
+export const insertCellBefore = (): InsertCellBeforeAction => {};

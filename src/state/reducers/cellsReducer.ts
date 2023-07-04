@@ -63,7 +63,7 @@ const reducer = produce((state: CellsState = initialState, action: Action) => {
     default:
       return state;
   }
-});
+}, initialState);
 
 const randomId = () => {
   // this string will contain all numbers from 0 to 9 and all letters from a to z

@@ -1,3 +1,4 @@
+import produce from "immer";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
 import { Cell } from "../cell";
@@ -17,24 +18,15 @@ const initialState: CellsState = {
   data: {},
 };
 
-const reducer = (
-  state: CellsState = initialState,
-  action: Action
-): CellsState => {
+const reducer = produce((state: CellsState = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.UPDATE_CELL:
       const { id, content } = action.payload;
+      // with Imer no need to return a value as Imer automatically does that
+      state.data[id].content = content;
 
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          [id]: {
-            ...state.data[id],
-            content,
-          },
-        },
-      };
+      // return only to please typescript
+      return;
     case ActionType.DELETE_CELL:
       return state;
     case ActionType.MOVE_CELL:
@@ -44,6 +36,6 @@ const reducer = (
     default:
       return state;
   }
-};
+});
 
 export default reducer;

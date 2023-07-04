@@ -1,0 +1,1 @@
+const CellListItem: React.FC = () => {};

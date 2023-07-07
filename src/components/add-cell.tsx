@@ -8,9 +8,10 @@ interface AddCellProps {
 const AddCell: React.FC<AddCellProps> = ({ nextCellid }) => {
   const { insertCellBefore } = useActions();
   return (
-    <div>
+    <div className="add-cell">
       <button onClick={() => insertCellBefore(nextCellid, "code")}>Code</button>
       <button onClick={() => insertCellBefore(nextCellid, "text")}>Code</button>
+      <div className="divider"></div>
     </div>
   );
 };

@@ -15,13 +15,18 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
 
   useEffect(() => {
-    const timer = setTimeout(async () => {
+    if (!bundle) {
       createBundle(cell.id, cell.content);
-    }, 750);
+      return;
+    }
+
+    const timer = setTimeout(async () => {}, 750);
 
     return () => {
       clearTimeout(timer);
     };
+    // eslint turn off dependency check on below line of code
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cell.content, cell.id, createBundle]); // create bundle does not change because of the useMemo hook
 
   return (

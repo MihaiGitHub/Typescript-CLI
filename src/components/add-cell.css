@@ -1,7 +1,8 @@
+/* transition - whenever a change is made to the opacity value of .add-cell, make the change over a span of 0.3 seconds */
 .add-cell {
   position: relative;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease-in 0.1s;
 }
 
 .add-cell:hover {

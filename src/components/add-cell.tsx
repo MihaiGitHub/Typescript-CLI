@@ -1,14 +1,17 @@
 import "./add-cell.css";
 import { useActions } from "../hooks/use-actions";
 
+// forceVisible is an optional prop
 interface AddCellProps {
   nextCellid: string | null;
+  forceVisible?: boolean;
 }
 
-const AddCell: React.FC<AddCellProps> = ({ nextCellid }) => {
+const AddCell: React.FC<AddCellProps> = ({ forceVisible, nextCellid }) => {
   const { insertCellBefore } = useActions();
+  // if forceVisible is true add className of force-visible
   return (
-    <div className="add-cell">
+    <div className={`add-cell ${forceVisible && "force-visible"}`}>
       <div className="add-buttons">
         <button
           className="button is-rounded is-primary is-small"

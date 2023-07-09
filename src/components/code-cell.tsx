@@ -56,7 +56,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
         sandbox="allow-scripts"
         srcDoc={html}
       /> */}
-        {bundle && <Preview err={bundle.err} code={bundle.code} />}
+        {!bundle || bundle.loading ? (
+          <div>Loading...</div>
+        ) : (
+          <Preview err={bundle.err} code={bundle.code} />
+        )}
       </div>
     </Resizable>
   );

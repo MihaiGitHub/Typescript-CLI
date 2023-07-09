@@ -34,18 +34,20 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
   useEffect(() => {
     if (!bundle) {
-      createBundle(cell.id, cell.content);
+      createBundle(cell.id, cumulativeCode.join("\n"));
       return;
     }
 
-    const timer = setTimeout(async () => {}, 750);
+    const timer = setTimeout(async () => {
+      createBundle(cell.id, cumulativeCode.join("\n"));
+    }, 750);
 
     return () => {
       clearTimeout(timer);
     };
     // eslint turn off dependency check on below line of code
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cell.content, cell.id, createBundle]); // create bundle does not change because of the useMemo hook
+  }, [cumulativeCode.join("\n"), cell.id, createBundle]); // create bundle does not change because of the useMemo hook
 
   return (
     <Resizable direction="vertical">

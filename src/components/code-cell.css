@@ -1,3 +1,9 @@
+.progress-wrapper {
+  height: 100%;
+  flex-grow: 1;
+  background-color: white;
+}
+
 /* @keyframes name-of-animation {
     0%    { opacity: 0; }
     20%   { opacity: 1; }
@@ -11,8 +17,7 @@
 
 .progress-cover {
   height: 100%;
-  flex-grow: 1;
-  background-color: white;
+  width: 100%;
   display: flex;
   align-items: center;
   padding-left: 10%;
@@ -20,6 +25,7 @@
   animation: fadeIn 0.5s;
 }
 
+/* hide .progress-cover entirely for a while before fading it in */
 @keyframes fadeIn {
   0% {
     opacity: 0;

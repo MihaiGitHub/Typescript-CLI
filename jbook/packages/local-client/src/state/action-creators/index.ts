@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import axios from "axios";
 import { ActionType } from "../action-types";
 import {
   Action,
@@ -8,7 +9,7 @@ import {
   InsertCellAfterAction,
   Direction,
 } from "../actions";
-import { CellTypes } from "../cell";
+import { Cell, CellTypes } from "../cell";
 import bundle from "../../bundler";
 
 // takes in id and content arguments of type string and returns an object of type UpdateCellAction
@@ -72,5 +73,29 @@ export const createBundle = (cellId: string, input: string) => {
         bundle: result,
       },
     });
+  };
+};
+
+export const fetchCells = () => {
+  // dispatch can only be called with a properly typed Action object
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch({ type: ActionType.FETCH_CELLS });
+
+    try {
+      // data is of type cell array
+      const { data }: { data: Cell[] } = await axios.get("./cells");
+
+      dispatch({
+        type: ActionType.FETCH_CELLS_COMPLETE,
+        payload: data,
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        dispatch({
+          type: ActionType.FETCH_CELLS_ERROR,
+          payload: err.message,
+        });
+      }
+    }
   };
 };

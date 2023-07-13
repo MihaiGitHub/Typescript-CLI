@@ -101,6 +101,7 @@ export const fetchCells = () => {
   };
 };
 
+// functions that return a redux thunk
 export const saveCells = () => {
   // getState reaches into redux store to take out what needed
   return async (dispatch: Dispatch<Action>, getState: () => RootState) => {

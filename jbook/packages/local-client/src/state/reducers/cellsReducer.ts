@@ -20,6 +20,28 @@ const initialState: CellsState = {
 
 const reducer = produce((state: CellsState = initialState, action: Action) => {
   switch (action.type) {
+    case ActionType.FETCH_CELLS:
+      state.loading = true;
+      state.error = null;
+      return state;
+
+    case ActionType.FETCH_CELLS_COMPLETE:
+      state.order = action.payload.map((cell) => cell.id);
+      // reduce performs an operation on every item in array and returns a single value
+      // the return value (accumulator) is the empty object
+      // tell typescript what type of object the accumulator is
+      state.data = action.payload.reduce((accumulator, cell) => {
+        accumulator[cell.id] = cell;
+        return accumulator;
+      }, {} as CellsState["data"]);
+
+      return state;
+
+    case ActionType.FETCH_CELLS_ERROR:
+      state.loading = false;
+      state.error = action.payload;
+      return state;
+
     case ActionType.UPDATE_CELL:
       const { id, content } = action.payload;
       // with Imer no need to return a value as Imer automatically does that

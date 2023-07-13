@@ -11,6 +11,7 @@ import {
 } from "../actions";
 import { Cell, CellTypes } from "../cell";
 import bundle from "../../bundler";
+import { RootState } from "../reducers";
 
 // takes in id and content arguments of type string and returns an object of type UpdateCellAction
 export const updateCell = (id: string, content: string): UpdateCellAction => {
@@ -97,5 +98,18 @@ export const fetchCells = () => {
         });
       }
     }
+  };
+};
+
+export const saveCells = () => {
+  // getState reaches into redux store to take out what needed
+  return async (dispatch: Dispatch<Action>, getState: () => RootState) => {
+    const {
+      cells: { data, order },
+    } = getState();
+
+    const cells = order.map((id) => data[id]);
+
+    await axios.post("/cells", { cells });
   };
 };

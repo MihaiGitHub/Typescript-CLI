@@ -12,6 +12,8 @@ export const persistMiddleware = ({
   dispatch: Dispatch<Action>;
   getState: () => RootState;
 }) => {
+  let timer: any;
+
   // take an action and pour it along to the next middleware
   // next is a function, that will be called with something called action of type Action and return void (nothing)
   return (next: (action: Action) => void) => {
@@ -26,8 +28,14 @@ export const persistMiddleware = ({
           ActionType.DELETE_CELL,
         ].includes(action.type)
       ) {
-        // call saveCells, receive the function that comes back, and immediately call that function with dispatch and getState
-        saveCells()(dispatch, getState);
+        if (timer) {
+          clearTimeout(timer);
+        }
+
+        timer = setTimeout(() => {
+          // call saveCells, receive the function that comes back, and immediately call that function with dispatch and getState
+          saveCells()(dispatch, getState);
+        }, 250);
       }
     };
   };

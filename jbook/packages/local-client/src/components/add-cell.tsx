@@ -36,3 +36,5 @@ const AddCell: React.FC<AddCellProps> = ({ forceVisible, previousCellId }) => {
     </div>
   );
 };
+
+export default AddCell;
